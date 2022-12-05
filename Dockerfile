@@ -1,9 +1,10 @@
-FROM golang:1.18-alpine
+FROM golang:1.18.0 as builder
 
-COPY goroot/ /go/
-# this is used to lint and build tarball
-RUN gometalinter --install --debug
+WORKDIR /github.com/ignalsciences/sigsci-module-golang/examples
 
-# we will mount the current directory here
-VOLUME [ "/go/src/github.com/signalsciences/sigsci-module-golang" ]
-WORKDIR /go/src/github.com/signalsciences/sigsci-module-golang
+COPY . .
+
+RUN go mod vendor && \
+	CGO_ENABLED=0 GOOS=linux go build -o helloworld examples/helloworld/main.go
+
+ENTRYPOINT [ "./helloworld" ]

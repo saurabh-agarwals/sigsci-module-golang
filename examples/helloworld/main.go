@@ -17,7 +17,7 @@ func main() {
 		listenerAddress = os.Args[1]
 	}
 	if len(listenerAddress) == 0 {
-		listenerAddress = "localhost:8000"
+		listenerAddress = "0.0.0.0:8000"
 	}
 
 	// Process sigsci-agent rpc-address from the optional second arg
